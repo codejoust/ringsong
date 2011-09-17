@@ -1,0 +1,51 @@
+#about
+  h2 about
+  p
+    send a song message to a friend.
+  h2 send it.
+  p
+    form(action='/new_msg', method='post')
+      .number.tval
+        label(for='your_number') your number.
+          input(type='text',name='your_number',id='your_number')
+      .number.tval
+        label(for='their_number') their number.
+          input(type='text',name='their_number',id='their_number')
+      #song-input.song.tval
+        label(for='text-song') the song!
+          input.complete_song(type='text',name='text_song',id='text-song')
+          input(type='hidden', name='song-asin', id='song-asin')
+          input(type='hidden', name='song-name', id='song-name')
+          input(type='hidden', name='song-artist', id='song-artist')
+          a.search(href='#') search
+          span \ | \ 
+          span#song-res pick a song
+        .songl
+      .submit
+        input.submit#submit-new(type='submit',value='send it!', disabled=true)
+  h2 find your messages.
+  p
+    form(action='/lookup-phone', method='post')
+      .number
+        label(for='number')
+          your number
+          small (to lookup)
+          input(type='text',name='number',id='number')
+
+
+
+.scripts
+  script(src='libs/jquery-1.6.4.min.js')
+  script(src='libs/jquery.maskedinput.js')
+  script(src='libs/underscore.js')
+  script(src='libs/backbone.js')
+  script(src='libs/soundmanager2-nodebug-jsmin.js')
+  script(src='app-cli.js')
+.templates
+  script(type='text/tpl', id='song-tpl')
+    p 
+      | <%= sname %> - <%= artist %>
+    a.preview(href="#") preview 
+    a.use(href='#') use.
+
+

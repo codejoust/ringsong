@@ -1,0 +1,25 @@
+.call-info 
+
+  h3 call id: #{calls._id}
+
+  .sect-call.header
+    h2
+      span.desc from:  
+      span.num= calls.from_phone
+    h2
+      span.desc to:  
+      span.num= calls.to_phone
+
+  .sect-time.header
+    h2
+      span.desc at:  
+      span.num= new Date(calls.date + 60*60*1000*calls.call_delay).toString().substr(0,21)
+      span.status ø
+    h2
+      span.desc sent:  
+      span.num= calls.date.toString().substr(0,21)
+
+  .sect-song.header
+    h2
+      span.desc song:  
+      span.num= calls.song.title + ' - ' + calls.song.artist

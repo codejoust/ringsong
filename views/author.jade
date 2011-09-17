@@ -1,0 +1,24 @@
+h4 all calls from #{author.phone}
+
+div.verified
+  - if (author.verified)
+    verified!
+  - else
+    not verified
+
+br/
+
+- if (calllist.length != 0)
+  table.calls
+    tr.call-head
+      th to:
+      th on:
+      th song:
+      th artist:
+    - each call in calllist
+      tr
+        - ph_str = call.to_phone.toString()
+        td.phone_to= '(' + ph_str.substr(0, 3) + ') ' + ph_str.substr(3, 3) + ' - ' + ph_str.substr(6,10)
+        td.date= call.date.toString().substr(0, 21)
+        td.song= call.song.title
+        td.artist= call.song.artist
