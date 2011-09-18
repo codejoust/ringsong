@@ -43,6 +43,7 @@ var CallListS = new Schema({
   call_delay: {type: Number, default: 2},
   call_at: Date,
   date: {type: Date, default: Date.now },
+  created_date: {type: Date, default: Date.now},
   ip: String,
   song: {type: Schema.ObjectId, required: true, ref: 'Song'}
 });

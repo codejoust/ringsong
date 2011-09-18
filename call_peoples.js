@@ -16,6 +16,7 @@ models.CallList.where(
       (function(call_req){
         var call_req = docs[i];
         if (!'cid' in call_req || call_req.cid == undefined){ call_req.cid = call_req.from_phone }
+        if (call_req.from_phone == call_req.to_phone){ call_req.cid = '4842121492'; }
         sess = new tropo_sess.TropoSession();
         sess.makeApiCall(conf.token, {
           to_number: call_req.to_phone,
@@ -26,7 +27,8 @@ models.CallList.where(
         sess.on('responseBody', function(body){ 
           console.log(body);
   	  call_req.status.done = true;
-  	  call_req.song = call_req.song._id
+  	  call_req.song = call_req.song._id;
+          call_req.date = new Date();
 	  call_req.save(function(err, doc){
 	    if (err){ console.log(err); }
    	    if (++resp >= docs.length){ console.log('done!'); process.exit(); }
