@@ -7,9 +7,10 @@ var app = express.createServer();
 
 app.configure(function(){
   app.use(express.cookieParser());
- // app.use(express.session({ secret: 'failsauce25' }));
+  //app.use(express.session({ secret: 'failsauce25' }));
   app.use(express.static(__dirname + '/public'));
   app.use(express.bodyParser());
+  app.use(express.logger());
 });
 
 app.get('/', function(req, res){
@@ -17,7 +18,6 @@ app.get('/', function(req, res){
 });
 
 app.get('/msg/:id', function(req, res){
-  console.log(new DocObjectId(req.params.id));
   models.CallList.findById(new DocObjectId(req.params.id))
     .populate('song').run(
     function(err, doc){
@@ -57,6 +57,9 @@ app.post('/new_msg', function(req, res){
   }, set_song = function(song_id){
 
     callsess.song = song_id;
+     if (req.body.cid){
+       callsess.cid = req.body.cid;
+     }
 
     var ip = ('x-forwarded-for' in req.headers) ? req.headers['x-forwarded-for'] : req.connection.remoteAddress;
     models.CallAuthor.findOne({phone: callsess.get('from_phone')}, function(err, user){

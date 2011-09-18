@@ -32,6 +32,7 @@ models.CallAuthor = mongoose.model('CallAuthor', CallAuthorS);
 var CallListS = new Schema({
   author: {type: Schema.ObjectId, required: true, ref: 'CallAuthor'},
   to_phone: {type: Number, required: true},
+  cid: String,
   from_phone: {type: Number, required: true},
   status: {
     to_block: Boolean,

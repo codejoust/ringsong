@@ -8,7 +8,7 @@ app.models.Song = Backbone.Model.extend({
   className: 'song',
   get_preview_url: function(){
     var asin = this.attributes.ASIN;
-    return 'http://www.amazon.com/gp/dmusic/get_sample_url.html?ASIN=' + asin;
+    return 'http://www.amazon.com/gp/dmusic/get_sample_url.html?ie=UTF8&DownloadLocation=WEBSITE&ASIN=' + asin;
   },
   desc: function(){
     var tpl = this.for_template();
