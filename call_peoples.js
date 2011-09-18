@@ -3,39 +3,35 @@ var tropo_sess = require('./tropo-session')
  ,  models     = require('./models')
  ,  conf       = require('./config');
 
-
 models.CallList.where(
   { $lt: { at_time: new Date() + 60*60*1000 + 2 }, 
     $gt: { at_time: new Date() }})
   .where('status.done', false)
   .where('status.from_accept', true)
   .populate('song').run(function(err, docs){
-
     console.log(docs);
     var resp = 0;
    if (docs.length ==0){process.exit()}
-
     for (var i=0; i < docs.length; i++){
-      var call_req = docs[i];
-
-      console.log('starting req!');
-
-      sess = new tropo_sess.TropoSession();
-      sess.makeApiCall(conf.token, {
-        to_number: call_req.to_phone,
-        songurl: 'http://www.amazon.com/gp/dmusic/get_sample_url.html?ASIN=' + call_req.song.asin,
-        asin: call_req.song.asin,
-        songinfo: call_req.song.title + ' - ' + call_req.song.artist
-      });
-      sess.on('responseBody', function(body){ 
-        console.log(body);
-call_req.status.done = true;
-call_req.song = call_req.song._id
-call_req.save(function(err, doc){
-   if (err){ console.log(err); process.exit(); }
-   if (++resp >= docs.length){ console.log('done!'); process.exit(); }
-})
-	});
-
+      (function(call_req){
+        var call_req = docs[i];
+        if (!'cid' in call_req || call_req.cid == undefined){ call_req.cid = call_req.from_phone }
+        sess = new tropo_sess.TropoSession();
+        sess.makeApiCall(conf.token, {
+          to_number: call_req.to_phone,
+          asin: call_req.song.asin,
+          songinfo: call_req.song.title + ' - ' + call_req.song.artist,
+          cid: call_req.cid
+        });
+        sess.on('responseBody', function(body){ 
+          console.log(body);
+  	  call_req.status.done = true;
+  	  call_req.song = call_req.song._id
+	  call_req.save(function(err, doc){
+	    if (err){ console.log(err); }
+   	    if (++resp >= docs.length){ console.log('done!'); process.exit(); }
+          })
+       });
+     })(docs[i]);
     }
   });
