@@ -8,7 +8,7 @@ var app = express.createServer();
 
 app.configure(function(){
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'failsauce25' }));
+ // app.use(express.session({ secret: 'failsauce25' }));
   app.use(express.static(__dirname + '/public'));
   app.use(express.bodyParser());
 });
@@ -103,4 +103,4 @@ app.post('/new_msg', function(req, res){
 
 });
 
-app.listen(4000);
+app.listen(5434);
