@@ -44,9 +44,15 @@ app.models.SongList = Backbone.Collection.extend({
     window.search_callback = this.got_data;
   },
   got_data: function(data){
+    var results = [];
     this.fetching = false;
     if ('results' in data){
-      this.reset(data.results);
+      for(var i=0;i<data.results.length;i++){
+        if (data.results[i].category == 'Digital Music Track') {
+		results.push(data.results[i]);
+        }
+      }
+      this.reset(results);
     }
   }
 });
