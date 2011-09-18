@@ -1,0 +1,10 @@
+{ "name": "ringsong"
+, "description": "call someone and plays a song for them"
+, "version": "0.0.3"
+, "main": "app.js",
+, "dependencies": {
+     "jade": "<1"
+   , "express": "~2.4"
+   , "mongoose": "~2.1"
+  }
+}

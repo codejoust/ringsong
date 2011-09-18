@@ -12,7 +12,8 @@ models.CallList.where(
 
     console.log(docs);
     var resp = 0;
-if (docs.length ==0){process.exit()}
+   if (docs.length ==0){process.exit()}
+
     for (var i=0; i < docs.length; i++){
       var call_req = docs[i];
 
@@ -30,15 +31,10 @@ if (docs.length ==0){process.exit()}
 call_req.status.done = true;
 call_req.song = call_req.song._id
 call_req.save(function(err, doc){
+   if (err){ console.log(err); process.exit(); }
    if (++resp >= docs.length){ console.log('done!'); process.exit(); }
 })
-//models.CallList.update({id: call_req._id}, {$set: {'status.done':true}});
 	});
 
     }
-
-      //});
-
   });
-
-  

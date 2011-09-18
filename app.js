@@ -1,8 +1,7 @@
 var express = require('express'),
     models =  require('./models'),
     DocObjectId = require('mongoose').Types.ObjectId,
-    http    = require('http'),
-    tropo   = require('tropo-webapi');
+    http    = require('http');
 
 var app = express.createServer();
 
