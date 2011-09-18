@@ -8,6 +8,7 @@ models.CallList.where(
   { $lt: { at_time: new Date() + 60*60*1000 + 2 }, 
     $gt: { at_time: new Date() }})
   .where('status.done', false)
+  .where('status.from_accept', true)
   .populate('song').run(function(err, docs){
 
     console.log(docs);

@@ -2,7 +2,8 @@ var express = require('express'),
     models =  require('./models'),
     DocObjectId = require('mongoose').Types.ObjectId,
     http    = require('http'),
-    tropo   = require('tropo-webapi');
+    tropo   = require('tropo-webapi'),
+    conf = require('./config');
 
 var app = express.createServer();
 
@@ -32,6 +33,17 @@ app.post('/lookup-phone', function(req, res){
     res.send('number required!');
   } else {
     res.redirect('/snum/' + req.body.number.replace(/[^0-9]/g,''));
+  }
+});
+
+app.get('/api/verify-phone', function(req, res){
+  if ('cb_key' in req.params && req.params.cb_key == conf.api_token){
+    var accept = !!(req.params.accept == 'accept');
+    models.CallList.update({phone: req.params.num}, {$set {status: { from_accept: accept }}});
+    models.Authors.update({phone: req.params.num}, {$set: {validated: accept }});
+    res.send('updated!')
+  } else {
+    res.send('404-');
   }
 });
 
