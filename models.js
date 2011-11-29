@@ -50,7 +50,7 @@ var CallListS = new Schema({
 
 CallListS.path('call_delay').set(function(num){
   this.set('call_at', (new Date) + 1000*60*60 * num);
-  this.set('cll_delay', num);
+  this.set('call_delay', num);
 });
 
 CallListS.virtual('their_number').set(function(val){
